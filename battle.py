@@ -16,8 +16,8 @@ while mode < 1 or mode > 2:
     except ValueError:
         continue
 for x in range(5):
-    board.append(["O"] * 5)
-    board2.append(["O"] * 5)
+    board.append(["0"] * 5)
+    board2.append(["0"] * 5)
 def print_board(board):
     for row in board:
         print(" ".join(row))
