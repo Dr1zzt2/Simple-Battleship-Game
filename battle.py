@@ -1,8 +1,12 @@
 import os
 from random import randint
 mode = 0
-board = board2 = []
-player1_ship_rows = player1_ship_cols = player2_ship_rows = player2_ship_cols = [0,0,0]
+board = []
+board2 = []
+player1_ship_rows = [0,0,0]
+player1_ship_cols = [0,0,0]
+player2_ship_rows = [0,0,0]
+player2_ship_cols = [0,0,0]
 print("Welcome to our Battleship game.")
 print("1. Singleplayer\n2. Multiplayer")
 while mode < 1 or mode > 2:
@@ -70,37 +74,39 @@ for x in range(3):
         player2_ship_cols[x] = randint(0, len(board[0]) - 1)
 
 print("All ships have been placed.")
+print(player2_ship_rows)
+print(player2_ship_cols)
 def shoot():
     global guess_row
     global guess_col
-    while player1_ship_rows != [0,0,0,] and player2_ship_rows != [0,0,0] :
+    while player1_ship_rows != [-1,-1,-1,] and player2_ship_rows != [-1,-1,-1] :
         print("Player 1's turn to shoot")
+        print_board2(board2)
         guess_rows()
         guess_row -= 1
         guess_columns()
         guess_col -= 1
         os.system("clear")
         hit = False
-        if board[guess_row][guess_col] == "0":
+        if board2[guess_row][guess_col] == "0":
             for x in range(3):
                 if guess_row == player2_ship_rows[x] and guess_col == player2_ship_cols[x]:
                     hit = True
                     print("Player 1 hit a battleship!")
                     board2[guess_row][guess_col] = "X"
-                    print_board(board)
-                    player2_ship_rows[x] = 0
-                    player2_ship_cols[x] = 0
+                    player2_ship_rows[x] = -1
+                    player2_ship_cols[x] = -1
                     print(player2_ship_rows)
-        elif board[guess_row][guess_col] == "X":
+        elif board2[guess_row][guess_col] == "X":
             print("You already destroyed that ship!")
-        elif board[guess_row][guess_col] == "-":
+        elif board2[guess_row][guess_col] == "-":
             print ("You already shot there.")
         if hit != True:
             print("Player 1 misses.")
             board2[guess_row][guess_col] = "-"
-            print_board(board)
         if mode == 2:
             print("Player 2's turn to shoot!")
+            print_board(board)
             guess_rows()
             guess_row -= 1
             guess_columns()
@@ -113,9 +119,8 @@ def shoot():
                         hit = True
                         print("Player 2 hit a battleship!")
                         board[guess_row][guess_col] = "X"
-                        print_board2(board2)
-                        player1_ship_rows[x] = 0
-                        player1_ship_cols[x] = 0
+                        player1_ship_rows[x] = -1
+                        player1_ship_cols[x] = -1
             elif board[guess_row][guess_col] == "X":
                 print("You already destroyed that ship!")
             elif board[guess_row][guess_col] == "-":
@@ -129,12 +134,10 @@ def shoot():
                     hit = True
                     print("Player 2 hit a battleship!")
                     board[guess_row][guess_col] = "X"
-                    print_board2(board2)
-                    player1_ship_rows[x] = 0
-                    player1_ship_cols[x] = 0
+                    player1_ship_rows[x] = -1
+                    player1_ship_cols[x] = -1
         if hit != True:
             print("Player 2 misses.")
             board[guess_row][guess_col] = "-"
-            print_board2(board2)
 
 shoot()
