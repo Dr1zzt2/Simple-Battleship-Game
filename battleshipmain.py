@@ -79,49 +79,71 @@ print(player2_ship_cols)
 def shoot():
     global guess_row
     global guess_col
-    while True: 
-        print("Player 1's turn to shoot")
-        print_board2(board2)
-        guess_rows()
-        guess_row -= 1
-        guess_columns()
-        guess_col -= 1
-        os.system("clear")
-        hit = False
-        if board2[guess_row][guess_col] == "0":
-            for x in range(3):
-                if guess_row == player2_ship_rows[x] and guess_col == player2_ship_cols[x]:
-                    hit = True
-                    print("Player 1 hit a battleship!")
-                    board2[guess_row][guess_col] = "X"
-                    player2_ship_rows[x] = -1
-                    player2_ship_cols[x] = -1
-                    print(player2_ship_rows)
-                    break
-                    
-            if player2_ship_rows == [-1,-1,-1,]:
-                break
-        elif board2[guess_row][guess_col] == "X":
-            print("You already destroyed that ship!")
-            continue
-        elif board2[guess_row][guess_col] == "-":
-            print ("You already shot there.")
-            continue
-        if hit != True and board2[guess_row][guess_col] != "X":
-            print("Player 1 misses.")
-            board2[guess_row][guess_col] = "-"
-            break
-    while True:     
-        if mode == 2:
-            print("Player 2's turn to shoot!")
-            print_board(board)
+    while True:
+        while True: 
+            print("Player 1's turn to shoot")
+            print_board2(board2)
             guess_rows()
             guess_row -= 1
             guess_columns()
             guess_col -= 1
             os.system("clear")
             hit = False
-            if board[guess_row][guess_col] == "0":
+            if board2[guess_row][guess_col] == "0":
+                for x in range(3):
+                    if guess_row == player2_ship_rows[x] and guess_col == player2_ship_cols[x]:
+                        hit = True
+                        print("Player 1 hit a battleship!")
+                        board2[guess_row][guess_col] = "X"
+                        player2_ship_rows[x] = -1
+                        player2_ship_cols[x] = -1
+                        print(player2_ship_rows)
+                        break
+            elif board2[guess_row][guess_col] == "X":
+                print("You already destroyed that ship!")
+                continue
+            elif board2[guess_row][guess_col] == "-":
+                print ("You already shot there.")
+                continue
+            if hit != True and board2[guess_row][guess_col] != "X":
+                print("Player 1 misses.")
+                board2[guess_row][guess_col] = "-"
+                break
+        if player2_ship_rows == [-1,-1,-1]:
+            break
+        while True:     
+            if mode == 2:
+                print("Player 2's turn to shoot!")
+                print_board(board)
+                guess_rows()
+                guess_row -= 1
+                guess_columns()
+                guess_col -= 1
+                os.system("clear")
+                hit = False
+                if board[guess_row][guess_col] == "0":
+                    for x in range(3):
+                        if guess_row == player1_ship_rows[x] and guess_col == player1_ship_cols[x]:
+                            hit = True
+                            print("Player 2 hit a battleship!")
+                            board[guess_row][guess_col] = "X"
+                            player1_ship_rows[x] = -1
+                            player1_ship_cols[x] = -1
+                    if player1_ship_rows == [-1,-1,-1]:
+                        break
+                elif board[guess_row][guess_col] == "X":
+                    print("You already destroyed that ship!")
+                    continue
+                elif board[guess_row][guess_col] == "-":
+                    print ("You already shot there.")
+                    continue
+            elif mode == 1:
+                while True:
+                    guess_row = randint(0,4)
+                    guess_col = randint(0,4)
+                    if board[guess_row][guess_col] == "0":
+                        break
+                hit = False
                 for x in range(3):
                     if guess_row == player1_ship_rows[x] and guess_col == player1_ship_cols[x]:
                         hit = True
@@ -129,36 +151,11 @@ def shoot():
                         board[guess_row][guess_col] = "X"
                         player1_ship_rows[x] = -1
                         player1_ship_cols[x] = -1
-                        break
-                if player1_ship_rows == [-1,-1,-1]:
-                    break
-            elif board[guess_row][guess_col] == "X":
-                print("You already destroyed that ship!")
-                continue
-            elif board[guess_row][guess_col] == "-":
-                print ("You already shot there.")
-                continue
-        elif mode == 1:
-            while True:
-                guess_row = randint(0,4)
-                guess_col = randint(0,4)
-                if board[guess_row][guess_col] == "0":
-                    break
-            hit = False
-            for x in range(3):
-                if guess_row == player1_ship_rows[x] and guess_col == player1_ship_cols[x]:
-                    hit = True
-                    print("Player 2 hit a battleship!")
-                    board[guess_row][guess_col] = "X"
-                    player1_ship_rows[x] = -1
-                    player1_ship_cols[x] = -1
-                    break
-                    
-            if player1_ship_rows == [-1,-1,-1]:
+            if hit != True and board[guess_row][guess_col] != "X":
+                print("Player 2 misses.")
+                board[guess_row][guess_col] = "-"
                 break
-        if hit != True and board[guess_row][guess_col] != "X":
-            print("Player 2 misses.")
-            board[guess_row][guess_col] = "-"
+        if player1_ship_rows == [-1,-1,-1]:
             break
 
 shoot()
