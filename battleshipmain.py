@@ -63,11 +63,10 @@ def guess_columns():
             continue
 for x in range(3):
     print("Player 1 turn to place ship.")
-        player1_ship_rows[x] = ship_pos_row()
-        player1_ship_cols[x] = ship_pos_col()
+    player1_ship_rows[x] = ship_pos_row()
+    player1_ship_cols[x] = ship_pos_col()
     if mode == 2:
         print("Player 2 turn to place ship.")
-        
         player2_ship_rows[x] = ship_pos_row()
         player2_ship_cols[x] = ship_pos_col()
     else:
@@ -98,16 +97,21 @@ def shoot():
                     player2_ship_rows[x] = -1
                     player2_ship_cols[x] = -1
                     print(player2_ship_rows)
+                    break
                     
             if player2_ship_rows == [-1,-1,-1,]:
                 break
         elif board2[guess_row][guess_col] == "X":
             print("You already destroyed that ship!")
+            continue
         elif board2[guess_row][guess_col] == "-":
             print ("You already shot there.")
+            continue
         if hit != True and board2[guess_row][guess_col] != "X":
             print("Player 1 misses.")
             board2[guess_row][guess_col] = "-"
+            break
+    while True:     
         if mode == 2:
             print("Player 2's turn to shoot!")
             print_board(board)
@@ -125,12 +129,15 @@ def shoot():
                         board[guess_row][guess_col] = "X"
                         player1_ship_rows[x] = -1
                         player1_ship_cols[x] = -1
+                        break
                 if player1_ship_rows == [-1,-1,-1]:
                     break
             elif board[guess_row][guess_col] == "X":
                 print("You already destroyed that ship!")
+                continue
             elif board[guess_row][guess_col] == "-":
                 print ("You already shot there.")
+                continue
         elif mode == 1:
             while True:
                 guess_row = randint(0,4)
@@ -145,12 +152,14 @@ def shoot():
                     board[guess_row][guess_col] = "X"
                     player1_ship_rows[x] = -1
                     player1_ship_cols[x] = -1
+                    break
                     
             if player1_ship_rows == [-1,-1,-1]:
                 break
         if hit != True and board[guess_row][guess_col] != "X":
             print("Player 2 misses.")
             board[guess_row][guess_col] = "-"
+            break
 
 shoot()
 if player1_ship_rows == [-1,-1,-1]:
