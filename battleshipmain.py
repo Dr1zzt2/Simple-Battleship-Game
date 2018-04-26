@@ -7,6 +7,7 @@ player1_ship_rows = [0,0,0] # listaception for more ships -> [0,[0,0],0,0]
 player1_ship_cols = [0,0,0]
 player2_ship_rows = [0,0,0]
 player2_ship_cols = [0,0,0]
+occupied = True
 print("Welcome to our Battleship game.")
 print("1. Singleplayer\n2. Multiplayer")
 while mode < 1 or mode > 2:
@@ -43,6 +44,19 @@ def ship_pos_col():
             continue
     os.system("clear")
     return(c-1)
+def placement_check(x):
+    occupied = False
+    global player1_ship_cols
+    global player1_ship_rows
+    player1_ship_rows[x] = ship_pos_row()
+    player1_ship_cols[x] = ship_pos_col()
+    for y in range(x-2,x-1):
+        print(player1_ship_rows[x])
+        print(player1_ship_rows[y])
+        if player1_ship_rows[y] == player1_ship_rows[x] and player1_ship_cols[y] == player1_ship_cols[x]:
+            occupied = True
+            break
+    return occupied
 def guess_rows():
     global guess_row
     guess_row = 0
@@ -63,8 +77,12 @@ def guess_columns():
             continue
 for x in range(3):
     print("Player 1 turn to place ship.")
-    player1_ship_rows[x] = ship_pos_row()
-    player1_ship_cols[x] = ship_pos_col()
+    occupied = True
+    while occupied == True:
+        occupied = placement_check(x)
+        if occupied == True:
+            print("You already placed a ship there.")
+    print("Ship placed!")
     if mode == 2:
         print("Player 2 turn to place ship.")
         player2_ship_rows[x] = ship_pos_row()
@@ -74,8 +92,6 @@ for x in range(3):
         player2_ship_cols[x] = randint(0, len(board[0]) - 1)
 
 print("All ships have been placed.")
-print(player2_ship_rows)
-print(player2_ship_cols)
 def shoot():
     global guess_row
     global guess_col
@@ -97,8 +113,6 @@ def shoot():
                         board2[guess_row][guess_col] = "X"
                         player2_ship_rows[x] = -1
                         player2_ship_cols[x] = -1
-                        print(player2_ship_rows)
-                        break
             elif board2[guess_row][guess_col] == "X":
                 print("You already destroyed that ship!")
                 continue
