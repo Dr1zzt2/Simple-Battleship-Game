@@ -26,21 +26,20 @@ def print_board2(board2):
     for row in board2:
         print(" ".join(row))
 def ship_pos_row():
+    print_board(board)
     r = 0
     while r > 5 or r < 1:
         try:
             r = int(input("Row: "))
         except ValueError:
-            os.system("clear")
             continue
     return(r-1)
-def ship_pos_col():
+def ship_pos_col():   
     c = 0
     while c > 5 or c < 1:
         try:
             c = int(input("Column: "))
         except ValueError:
-            os.system("clear")
             continue
     os.system("clear")
     return(c-1)
@@ -50,7 +49,7 @@ def placement_check(x):
     global player1_ship_rows
     player1_ship_rows[x] = ship_pos_row()
     player1_ship_cols[x] = ship_pos_col()
-    for y in range(x-2,x-1):
+    for y in range(0,x-1):
         print(player1_ship_rows[x])
         print(player1_ship_rows[y])
         if player1_ship_rows[y] == player1_ship_rows[x] and player1_ship_cols[y] == player1_ship_cols[x]:
@@ -64,7 +63,6 @@ def guess_rows():
         try:
             guess_row = int(input(" Guess the row: "))
         except ValueError:
-            os.system("clear")
             continue
 def guess_columns():
     global guess_col
@@ -73,7 +71,6 @@ def guess_columns():
         try:
             guess_col = int(input(" Guess the column: "))
         except ValueError:
-            os.system("clear")
             continue
 for x in range(3):
     print("Player 1 turn to place ship.")
@@ -87,15 +84,21 @@ for x in range(3):
         print("Player 2 turn to place ship.")
         player2_ship_rows[x] = ship_pos_row()
         player2_ship_cols[x] = ship_pos_col()
+        print("Ship placed!")
     else:
         player2_ship_rows[x] = randint(0, len(board) - 1)
         player2_ship_cols[x] = randint(0, len(board[0]) - 1)
+        print("Player 2 ship automatically placed!")
 
 print("All ships have been placed.")
 def shoot():
     global guess_row
     global guess_col
     while True:
+        if player2_ship_rows == [-1,-1,-1]:
+            break
+        if player1_ship_rows == [-1,-1,-1]:
+            break
         while True: 
             print("Player 1's turn to shoot")
             print_board2(board2)
